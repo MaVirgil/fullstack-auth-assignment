@@ -1,0 +1,11 @@
+{
+  "name": "auth-backend",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
