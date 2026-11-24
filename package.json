@@ -6,7 +6,8 @@
     "./frontend"
   ],
   "scripts": {
-    "start": "concurrently -k -c blue,green \"npm start -w backend\" \"npm start -w frontend\""
+    "start": "concurrently -k -c blue,green \"npm start -w backend\" \"npm start -w frontend\"",
+    "dev": "concurrently -k -c blue,green \"npm start -w backend\" \"npm run dev -w frontend\""
   },
   "devDependencies": {
     "concurrently": "^10.0.6"
