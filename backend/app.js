@@ -5,7 +5,7 @@ import sessionRouter from './routers/auth.router.js';
 const app = express();
 app.disable('x-powered-by');
 
-const PORT = Number(process.env.PORT);
+const PORT = Number(process.env.PORT) || 8080;
 
 app.use(express.json());
 app.use(express.static('../frontend/dist'));
