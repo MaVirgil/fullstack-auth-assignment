@@ -1,10 +1,72 @@
 import encryption from '../lib/encryption.js';
 import users from '../repository/users.js';
 
-async function validateLogin(username, password) {
+async function register(user) {
+  const validationErrors = validateRegister(user);
+
+  if (validationErrors.length > 0) {
+    return { created: null, error: validationErrors}
+  }
+
+  const passwordHash = await encryption.hashPassword(user.password);
+
+  const created = users.add({
+    email: user.email,
+    firstName: user.firstName,
+    passwordHash,
+  });
+  
+  return { created, error: null };
+}
+
+async function login(email, password) {
+  const validationErrors = await validateLogin(email, password);
+
+  return validationErrors.length > 0 ? validationErrors : null;
+}
+
+function validateRegister(user) {
   const validationErrors = [];
 
-  const targetUser = users.find((user) => user.username === username);
+  if (!user) {
+    throw new Error('register(): must provide user object as argument');
+  }
+
+  if (users.getByEmail(user.email)) {
+    validationErrors.push({
+      error: 'invalid_email',
+      description: 'email already taken',
+    });
+  }
+
+  if (!user.email) {
+    validationErrors.push({
+      error: 'invalid_email',
+      description: 'email must not be empty',
+    });
+  }
+
+  if (!user.password) {
+    validationErrors.push({
+      error: 'invalid_password',
+      description: 'password must not be empty',
+    });
+  }
+
+  if (!user.firstName) {
+    validationErrors.push({
+      error: 'invalid_name',
+      description: 'first name must not be empty',
+    });
+  }
+
+  return validationErrors;
+}
+
+async function validateLogin(email, password) {
+  const validationErrors = [];
+
+  const targetUser = users.userList.find((user) => user.email === email);
   const passwordMatches = await encryption.comparePassword(
     password,
     targetUser?.passwordHash ?? '',
@@ -13,14 +75,14 @@ async function validateLogin(username, password) {
   if (!passwordMatches) {
     validationErrors.push({
       error: 'incorrect_credentials',
-      description: 'no account with that password found',
+      description: 'no account with that email and password found',
     });
   }
 
-  if (!username) {
+  if (!email) {
     validationErrors.push({
-      error: 'invalid_username',
-      description: 'username must not be empty',
+      error: 'invalid_email',
+      description: 'email must not be empty',
     });
   }
 
@@ -31,9 +93,10 @@ async function validateLogin(username, password) {
     });
   }
 
-  return validationErrors.length > 0 ? validationErrors : null;
+  return validationErrors;
 }
 
 export default {
-  validateLogin,
+  validateLogin: login,
+  register
 };

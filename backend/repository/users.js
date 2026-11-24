@@ -1,4 +1,4 @@
-const users = [
+const userList = [
   {
     id: 1,
     email: 'admin@admin.org',
@@ -6,4 +6,31 @@ const users = [
   },
 ];
 
-export default users;
+function add(user) {
+  const nextId = userList.length + 1;
+  const {id: _id, ...userWithIdStripped } = user;
+
+  const toInsert = {
+    id: nextId,
+    ...userWithIdStripped,
+  }
+
+  userList.push(toInsert);
+
+  return toInsert;
+}
+
+function getByEmail(email) {
+  return userList.find((user) => user.email === email);
+}
+
+function getById(id) {
+  return userList.find((user) => user.id === id);
+}
+
+export default {
+  userList,
+  add,
+  getByEmail,
+  getById,
+}
