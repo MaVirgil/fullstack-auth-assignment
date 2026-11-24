@@ -1,10 +1,9 @@
 {
   "name": "auth-backend",
-  "scripts": {
-    "start": "node app.js"
-  },
-  "license": "MIT",
   "type": "module",
+  "scripts": {
+    "start": "node --watch app.js"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.10",

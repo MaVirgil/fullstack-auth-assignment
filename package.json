@@ -1,0 +1,14 @@
+{
+  "name": "curacal",
+  "private": true,
+  "workspaces": [
+    "./backend",
+    "./frontend"
+  ],
+  "scripts": {
+    "start": "concurrently -k -c blue,green \"npm start -w backend\" \"npm start -w frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
