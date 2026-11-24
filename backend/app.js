@@ -7,6 +7,7 @@ app.disable('x-powered-by');
 
 const PORT = Number(process.env.PORT);
 
+app.use(express.json());
 app.use(express.static('../frontend/dist'));
 app.use(sessionRouter);
 
