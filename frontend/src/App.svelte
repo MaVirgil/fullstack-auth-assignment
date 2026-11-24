@@ -3,9 +3,6 @@
 
   let healthCheck = $state('not fetched...');
 
-  console.log('this value should exist:', import.meta.env.VITE_TEST_VAR);
-  console.log('this value should not exist:', import.meta.env.PORT);
-
   async function handleFetchHealth() {
     const response = await fetch('/api/health');
     const result = await response.json();
