@@ -12,7 +12,7 @@ app.use(express.static('../frontend/dist'));
 app.use(sessionRouter);
 
 app.get('/api/health', (req, res) => {
-  res.send({data: 'OK'});
+  res.send({ data: 'OK' });
 });
 
 app.listen(PORT, () => {

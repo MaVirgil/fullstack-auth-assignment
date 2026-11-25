@@ -8,12 +8,12 @@ const userList = [
 
 function add(user) {
   const nextId = userList.length + 1;
-  const {id: _id, ...userWithIdStripped } = user;
+  const { id: _id, ...userWithIdStripped } = user;
 
   const toInsert = {
     id: nextId,
     ...userWithIdStripped,
-  }
+  };
 
   userList.push(toInsert);
 
@@ -33,4 +33,4 @@ export default {
   add,
   getByEmail,
   getById,
-}
+};

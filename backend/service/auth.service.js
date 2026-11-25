@@ -5,7 +5,7 @@ async function register(user) {
   const validationErrors = validateRegister(user);
 
   if (validationErrors.length > 0) {
-    return { created: null, error: validationErrors}
+    return { created: null, error: validationErrors };
   }
 
   const passwordHash = await encryption.hashPassword(user.password);
@@ -15,14 +15,18 @@ async function register(user) {
     firstName: user.firstName,
     passwordHash,
   });
-  
+
   return { created, error: null };
 }
 
 async function login(email, password) {
   const targetPasswordHash = users.getByEmail(email)?.passwordHash ?? '';
 
-  const validationErrors = await validateLogin(email, password, targetPasswordHash);
+  const validationErrors = await validateLogin(
+    email,
+    password,
+    targetPasswordHash,
+  );
 
   return validationErrors.length > 0 ? validationErrors : null;
 }
@@ -99,5 +103,5 @@ async function validateLogin(email, password, targetHash) {
 
 export default {
   validateLogin: login,
-  register
+  register,
 };

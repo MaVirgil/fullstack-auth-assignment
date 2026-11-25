@@ -17,12 +17,11 @@ router.post('/api/login', async (req, res) => {
     return;
   }
 
-  res.send({data: 'logged in'});
-
+  res.send({ data: 'logged in' });
 });
 
 router.get('/api/auth/test', (req, res) => {
-  res.send({data: "ok"});
+  res.send({ data: 'ok' });
 });
 
 router.post('/api/register', async (req, res) => {
@@ -42,7 +41,7 @@ router.post('/api/register', async (req, res) => {
     return;
   }
 
-  res.send({user: created})
+  res.send({ user: created });
 });
 
 export default router;

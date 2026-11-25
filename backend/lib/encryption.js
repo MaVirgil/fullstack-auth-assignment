@@ -13,4 +13,4 @@ async function comparePassword(password, hash) {
 export default {
   hashPassword,
   comparePassword,
-}
+};
