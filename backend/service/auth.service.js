@@ -20,7 +20,9 @@ async function register(user) {
 }
 
 async function login(email, password) {
-  const validationErrors = await validateLogin(email, password);
+  const targetPasswordHash = users.getByEmail(email)?.passwordHash ?? '';
+
+  const validationErrors = await validateLogin(email, password, targetPasswordHash);
 
   return validationErrors.length > 0 ? validationErrors : null;
 }
@@ -63,13 +65,12 @@ function validateRegister(user) {
   return validationErrors;
 }
 
-async function validateLogin(email, password) {
+async function validateLogin(email, password, targetHash) {
   const validationErrors = [];
 
-  const targetUser = users.userList.find((user) => user.email === email);
   const passwordMatches = await encryption.comparePassword(
     password,
-    targetUser?.passwordHash ?? '',
+    targetHash,
   );
 
   if (!passwordMatches) {
