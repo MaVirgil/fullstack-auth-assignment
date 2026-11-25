@@ -20,28 +20,29 @@ router.post('/api/login', async (req, res) => {
   res.send({ data: 'logged in' });
 });
 
-router.get('/api/auth/test', (req, res) => {
-  res.send({ data: 'ok' });
-});
 
 router.post('/api/register', async (req, res) => {
   const newUser = {};
-
+  
   newUser.email = req.body.email;
   newUser.password = req.body.password;
   newUser.firstName = req.body.firstName;
-
+  
   console.log('creating new user:', JSON.stringify(newUser));
   const { created, error } = await authService.register(newUser);
-
+  
   if (error) {
     res.status(StatusCodes.BAD_REQUEST).send({
       error: error,
     });
     return;
   }
-
+  
   res.send({ user: created });
+});
+
+router.get('/api/auth/test', (req, res) => {
+  res.send({ data: 'ok' });
 });
 
 export default router;
