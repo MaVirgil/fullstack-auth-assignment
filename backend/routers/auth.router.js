@@ -19,10 +19,13 @@ router.post('/api/login', async (req, res) => {
   }
 
   req.session.user = user;
+
+  // TODO: strip id and passwordHash from user before sending to client
+  
   res.send({
     data: {
       user,
-    }
+    },
   });
 });
 
@@ -42,6 +45,8 @@ router.post('/api/register', async (req, res) => {
     });
     return;
   }
+
+  // TODO: strip id and passwordHash from user before sending to client
   
   res.send({
     data: {
