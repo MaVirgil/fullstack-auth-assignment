@@ -34,7 +34,6 @@ router.post('/api/register', async (req, res) => {
   newUser.password = req.body.password;
   newUser.firstName = req.body.firstName;
   
-  console.log('creating new user:', JSON.stringify(newUser));
   const { user, error } = await authService.register(newUser);
   
   if (error) {
