@@ -1,4 +1,6 @@
 <script>
+  import Navbar from "../../components/Navbar.svelte";
+
   let health = $state('not fetched...');
 
   async function handleCheckHealth() {
@@ -11,5 +13,6 @@
   }
 </script>
 
+<Navbar />
 <button onclick={handleCheckHealth}>Check health</button>
 <h2>Server health: {health}</h2>
