@@ -1,16 +1,26 @@
 <script>
-  console.log('running...');
-
-  let healthCheck = $state('not fetched...');
-
-  async function handleFetchHealth() {
-    const response = await fetch('/api/health');
-    const result = await response.json();
-    console.log(result);
-    healthCheck = result.data;
-  }
+  import { Router, Route, Link } from 'svelte-routing';
+  import ProtectedRoute from './components/ProtectedRoute.svelte';
+  import LoginPage from "./pages/loginPage/LoginPage.svelte";
+  import HealthCheckPage from './pages/healthCheck/HealthCheckPage.svelte';
 </script>
 
-<h1>Home Page</h1>
-<button onclick={handleFetchHealth}>Fetch health</button>
-<h2>Health: {healthCheck}</h2>
+<Router>
+  <nav>
+    <Link to='/'>Home</Link>
+    <Link to='/test'>Test</Link>
+    <Link to='/protected'>Protected</Link>
+  </nav>
+  <div>
+    <Route path="/">
+      <LoginPage />
+    </Route>
+    <Route path="/test">
+      <HealthCheckPage />
+    </Route>
+    <ProtectedRoute path="/protected" allow={false}>
+      <h2>Protected route!</h2>
+    </ProtectedRoute>
+
+  </div>
+</Router>
