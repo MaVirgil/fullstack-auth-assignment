@@ -6,16 +6,13 @@
 </script>
 
 <Router>
-  <div>
-    <Route path="/">
-      <LoginPage />
-    </Route>
-    <Route path="/test">
-      <HealthCheckPage />
-    </Route>
-    <ProtectedRoute path="/protected" allow={false}>
-      <h2>Protected route!</h2>
-    </ProtectedRoute>
-
-  </div>
+  <Route path="/">
+    <LoginPage />
+  </Route>
+  <Route path="/test">
+    <HealthCheckPage />
+  </Route>
+  <ProtectedRoute path="/protected" allow={false}>
+    <h2>Protected route!</h2>
+  </ProtectedRoute>
 </Router>
