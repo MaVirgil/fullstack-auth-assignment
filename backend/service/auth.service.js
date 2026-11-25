@@ -36,28 +36,28 @@ function validateRegister(user) {
 
   if (users.getByEmail(user.email)) {
     validationErrors.push({
-      error: 'invalid_email',
+      error: 'email_taken',
       description: 'email already taken',
     });
   }
 
   if (!user.email) {
     validationErrors.push({
-      error: 'invalid_email',
+      error: 'email_invalid',
       description: 'email must not be empty',
     });
   }
 
   if (!user.password) {
     validationErrors.push({
-      error: 'invalid_password',
+      error: 'password_invalid',
       description: 'password must not be empty',
     });
   }
 
   if (!user.firstName) {
     validationErrors.push({
-      error: 'invalid_name',
+      error: 'name_invalid',
       description: 'first name must not be empty',
     });
   }
@@ -75,21 +75,21 @@ async function validateLogin(email, password, targetHash) {
 
   if (!passwordMatches) {
     validationErrors.push({
-      error: 'incorrect_credentials',
+      error: 'credentials_incorrect',
       description: 'no account with that email and password found',
     });
   }
 
   if (!email) {
     validationErrors.push({
-      error: 'invalid_email',
+      error: 'email_invalid',
       description: 'email must not be empty',
     });
   }
 
   if (!password) {
     validationErrors.push({
-      error: 'invalid_password',
+      error: 'password_invalid',
       description: 'password must not be empty',
     });
   }
