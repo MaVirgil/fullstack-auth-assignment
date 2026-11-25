@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import session from 'express-session';
 import { StatusCodes } from 'http-status-codes';
 import authService from '../service/auth.service.js';
 
@@ -8,16 +9,21 @@ router.post('/api/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const err = await authService.validateLogin(email, password);
+  const { user, error } = await authService.login(email, password);
 
-  if (err) {
+  if (error) {
     res.status(StatusCodes.BAD_REQUEST).send({
       error: err,
     });
     return;
   }
 
-  res.send({ data: 'logged in' });
+  req.session.user = user;
+  res.send({
+    data: {
+      user,
+    }
+  });
 });
 
 
@@ -29,7 +35,7 @@ router.post('/api/register', async (req, res) => {
   newUser.firstName = req.body.firstName;
   
   console.log('creating new user:', JSON.stringify(newUser));
-  const { created, error } = await authService.register(newUser);
+  const { user, error } = await authService.register(newUser);
   
   if (error) {
     res.status(StatusCodes.BAD_REQUEST).send({
@@ -38,7 +44,11 @@ router.post('/api/register', async (req, res) => {
     return;
   }
   
-  res.send({ user: created });
+  res.send({
+    data: {
+      created: user,
+    }
+  });
 });
 
 router.get('/api/auth/test', (req, res) => {

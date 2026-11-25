@@ -16,11 +16,12 @@ async function register(user) {
     passwordHash,
   });
 
-  return { created, error: null };
+  return { user: created, error: null };
 }
 
 async function login(email, password) {
-  const targetPasswordHash = users.getByEmail(email)?.passwordHash ?? '';
+  const target = users.getByEmail(email);
+  const targetPasswordHash = target?.passwordHash || '';
 
   const validationErrors = await validateLogin(
     email,
@@ -28,7 +29,11 @@ async function login(email, password) {
     targetPasswordHash,
   );
 
-  return validationErrors.length > 0 ? validationErrors : null;
+  if (validationErrors.length > 0) {
+    return { user: null, error: validationErrors };
+  }
+
+  return { user: target, error: null };
 }
 
 function validateRegister(user) {
@@ -102,6 +107,6 @@ async function validateLogin(email, password, targetHash) {
 }
 
 export default {
-  validateLogin: login,
+  login,
   register,
 };
