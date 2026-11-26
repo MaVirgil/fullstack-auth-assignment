@@ -6,7 +6,7 @@ import userService from '../service/user.service.js';
 
 const router = Router();
 
-router.post('/api/login', async (req, res) => {
+router.post('/api/auth/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -29,7 +29,7 @@ router.post('/api/login', async (req, res) => {
   });
 });
 
-router.post('/api/register', async (req, res) => {
+router.post('/api/auth/register', async (req, res) => {
   const newUser = {};
 
   newUser.email = req.body.email;
