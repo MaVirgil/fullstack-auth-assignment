@@ -2,6 +2,7 @@ import { Router } from 'express';
 import session from 'express-session';
 import { StatusCodes } from 'http-status-codes';
 import authService from '../service/auth.service.js';
+import userService from '../service/user.service.js';
 
 const router = Router();
 
@@ -18,13 +19,16 @@ router.post('/api/login', async (req, res) => {
     return;
   }
 
-  req.session.user = user;
 
-  // TODO: strip id and passwordHash from user before sending to client
+  const publicUser = userService.toPublicUser(user);
+
+  console.log('adding public user to session:', publicUser);
+
+  req.session.user = publicUser;
   
   res.send({
     data: {
-      user,
+      user: publicUser,
     },
   });
 });
@@ -46,11 +50,11 @@ router.post('/api/register', async (req, res) => {
     return;
   }
 
-  // TODO: strip id and passwordHash from user before sending to client
+  const publicUser = userService.toPublicUser(user);
   
   res.send({
     data: {
-      created: user,
+      created: publicUser,
     }
   });
 });

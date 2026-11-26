@@ -29,7 +29,6 @@ function getById(id) {
 }
 
 export default {
-  userList,
   add,
   getByEmail,
   getById,

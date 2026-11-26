@@ -1,5 +1,5 @@
 import encryption from '../lib/encryption.js';
-import users from '../repository/users.js';
+import userService from '../service/user.service.js';
 
 async function register(user) {
   const validationErrors = validateRegister(user);
@@ -10,7 +10,7 @@ async function register(user) {
 
   const passwordHash = await encryption.hashPassword(user.password);
 
-  const created = users.add({
+  const created = userService.add({
     email: user.email,
     firstName: user.firstName,
     passwordHash,
@@ -20,7 +20,7 @@ async function register(user) {
 }
 
 async function login(email, password) {
-  const target = users.getByEmail(email);
+  const target = userService.getByEmail(email);
   const targetPasswordHash = target?.passwordHash || '';
 
   const validationErrors = await validateLogin(
@@ -43,7 +43,7 @@ function validateRegister(user) {
     throw new Error('register(): must provide user object as argument');
   }
 
-  if (users.getByEmail(user.email)) {
+  if (userService.getByEmail(user.email)) {
     validationErrors.push({
       error: 'email_taken',
       description: 'email already taken',
