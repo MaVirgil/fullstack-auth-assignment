@@ -19,13 +19,9 @@ router.post('/api/login', async (req, res) => {
     return;
   }
 
-
   const publicUser = userService.toPublicUser(user);
+  req.session.userId = publicUser.id;
 
-  console.log('adding public user to session:', publicUser);
-
-  req.session.user = publicUser;
-  
   res.send({
     data: {
       user: publicUser,
@@ -33,16 +29,15 @@ router.post('/api/login', async (req, res) => {
   });
 });
 
-
 router.post('/api/register', async (req, res) => {
   const newUser = {};
-  
+
   newUser.email = req.body.email;
   newUser.password = req.body.password;
   newUser.firstName = req.body.firstName;
-  
+
   const { user, error } = await authService.register(newUser);
-  
+
   if (error) {
     res.status(StatusCodes.BAD_REQUEST).send({
       error: error,
@@ -51,11 +46,11 @@ router.post('/api/register', async (req, res) => {
   }
 
   const publicUser = userService.toPublicUser(user);
-  
+
   res.send({
     data: {
       created: publicUser,
-    }
+    },
   });
 });
 
