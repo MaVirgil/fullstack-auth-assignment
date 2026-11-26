@@ -1,11 +1,16 @@
 <script>
-  const { onSubmit, children, ...rest } = $props();
+  const { onSubmit, children, disabled = false, ...rest } = $props();
 </script>
 
 <form
   {...rest}
   onsubmit={(event) => {
     event.preventDefault();
+
+    if (disabled) {
+      return;
+    }
+
     const formData = new FormData(event.currentTarget);
     onSubmit(formData);
   }}
