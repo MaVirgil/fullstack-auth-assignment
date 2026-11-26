@@ -13,7 +13,7 @@ router.post('/api/login', async (req, res) => {
 
   if (error) {
     res.status(StatusCodes.BAD_REQUEST).send({
-      error: err,
+      error,
     });
     return;
   }
