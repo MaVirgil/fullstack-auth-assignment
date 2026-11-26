@@ -1,34 +1,35 @@
 <script>
   import Navbar from '../../components/Navbar.svelte';
   import LoginForm from './components/LoginForm.svelte';
-  import authFetch from '../../util/authFetch.js';
+  import { auth } from '../../stores/authStore.js';
 
-  let loading = $state(false);
+  let loginLoading = $state(false);
   let authErrors = $state([]);
 
   async function handleLoginFormSubmit(formData) {
-    console.log('running login function...');
-    loading = true;
+    loginLoading = true;
     const emailInput = formData.get('email');
     const passwordInput = formData.get('password');
     
-    const result = await authFetch.login(emailInput, passwordInput);
+    const error = await auth.login(emailInput, passwordInput);
 
-    if (result.error) {
-      authErrors = result.error;
-      loading = false;
+    if (error) {
+      authErrors = error;
+      loginLoading = false;
       return;
     }
 
-    console.log('logged in...');
-    loading = false;
+    console.log('logged in as:', $auth.user);
+
+    loginLoading = false;
   }
 </script>
 
 <Navbar />
 <h1>Log in page</h1>
+<h2>Auth loading: {$auth.loading}</h2>
 <div class="login-form-container">
-  <LoginForm onSubmit={handleLoginFormSubmit} disabled={loading}/>
+  <LoginForm onSubmit={handleLoginFormSubmit} disabled={loginLoading}/>
 </div>
 
 <style>

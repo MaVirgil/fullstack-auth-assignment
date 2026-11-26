@@ -11,6 +11,16 @@ async function login(email, password) {
   return result;
 }
 
+async function fetchCurrentUser() {
+  const response = await fetch('/api/auth/me', {
+    credentials: 'include',
+  });
+
+  const result = await response.json();
+  return result;
+}
+
 export default {
   login,
+  fetchCurrentUser,
 }
