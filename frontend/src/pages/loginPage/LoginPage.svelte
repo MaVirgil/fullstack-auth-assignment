@@ -12,6 +12,6 @@
 
 <Navbar />
 <h1>Log in page</h1>
-<div class="login-form">
+<div class="login-form-container">
   <LoginForm onSubmit={handleLoginFormSubmit}/>
 </div>
