@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import session from 'express-session';
 import { StatusCodes } from 'http-status-codes';
 import authService from '../service/auth.service.js';
 import userService from '../service/user.service.js';
@@ -50,6 +49,44 @@ router.post('/api/auth/register', async (req, res) => {
   res.send({
     data: {
       created: publicUser,
+    },
+  });
+});
+
+router.get('/api/auth/me', (req, res) => {
+  const userId = req.session.userId;
+
+  if (!userId) {
+    return res.status(StatusCodes.UNAUTHORIZED).send({
+      error: [
+        {
+          error: 'no_session',
+          description: 'no active session for this request',
+        }
+      ],
+    });
+  }
+
+  const user = userService.getById(userId);
+
+  if (!user) {
+    req.session.destroy();
+    res.clearCookie('connect.sid');
+    return res.status(StatusCodes.UNAUTHORIZED).send({
+      error: [
+        {
+          error: 'no_user_found',
+          description: 'no user was found for the userId connected to that session',
+        },
+      ],
+    });
+  }
+
+  const publicUser = userService.toPublicUser(user);
+
+  res.send({
+    data: {
+      user: publicUser,
     },
   });
 });
