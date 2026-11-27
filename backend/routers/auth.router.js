@@ -57,6 +57,7 @@ router.get('/api/auth/me', (req, res) => {
   const userId = req.session.userId;
 
   if (!userId) {
+    res.clearCookie('connect.sid');
     return res.status(StatusCodes.UNAUTHORIZED).send({
       error: [
         {
