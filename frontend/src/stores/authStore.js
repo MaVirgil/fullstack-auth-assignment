@@ -11,7 +11,6 @@ function authStore() {
       console.log('fetchCurrentUser result:', result);
 
       if (result.error) {
-        set(null);
         set({ loading: false, user: null })
         return result.error;
       }
@@ -23,7 +22,6 @@ function authStore() {
       const result = await authFetch.login(email, password);
 
       if (result.error) {
-        set(null);
         return result.error;
       }
 
