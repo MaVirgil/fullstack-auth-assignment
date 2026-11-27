@@ -8,7 +8,6 @@ function authStore() {
     subscribe,
     init: async () => {
       const result = await authFetch.fetchCurrentUser();
-      console.log('fetchCurrentUser result:', result);
 
       if (result.error) {
         set({ loading: false, user: null })
@@ -16,6 +15,7 @@ function authStore() {
       }
 
       const user = result.data.user;
+      console.log('logged in with email:', user.email);
       set({ loading: false, user });
     },
     login: async (email, password) => {
@@ -26,6 +26,7 @@ function authStore() {
       }
 
       const user = result.data.user;
+      console.log('logged in with email:', user.email);
       set({ loading: false, user });
 
       return null;
