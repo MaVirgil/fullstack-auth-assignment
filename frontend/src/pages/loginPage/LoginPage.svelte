@@ -19,8 +19,6 @@
       return;
     }
 
-    console.log('logged in as:', $auth.user);
-
     loginLoading = false;
   }
 </script>
